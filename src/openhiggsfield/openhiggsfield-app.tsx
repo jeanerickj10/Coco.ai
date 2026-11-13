@@ -223,7 +223,6 @@ export function OpenHiggsfieldApp({ fontClassName = "" }: { fontClassName?: stri
   useEffect(() => {
     void hasPlatformCredentials().then((ready) => {
       setKeyConfigured(ready);
-      if (!ready) setKeysOpen(true);
     });
   }, []);
 
@@ -274,7 +273,7 @@ export function OpenHiggsfieldApp({ fontClassName = "" }: { fontClassName?: stri
       } catch (caught) {
         if (!alive.current) return;
         const message = describeError(caught);
-        if (message.includes("platform key")) setKeysOpen(true);
+        if (message.includes("platform key")) setKeysOpen(false);
         setHistory((prev) => {
           const next = replaceRequest(prev, requestId, failedRows(requestId, expected, draft, message));
           void saveHistory(next);
@@ -325,8 +324,7 @@ export function OpenHiggsfieldApp({ fontClassName = "" }: { fontClassName?: stri
      moment the tiles appear and any number of runs can be in flight. */
   const generate = useCallback(async () => {
     if (!keyConfigured) {
-      setKeysOpen(true);
-      setError("Add your platform key to generate.");
+      setError("COCO.AI Studio preview is ready. Connect a generation provider when you're ready to create images and videos.");
       return;
     }
     const plane = assemblePlane();
